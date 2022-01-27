@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+</head>
+<body>
+
+<h1>Editing user</h1>
+
+<form th:method="PATCH" th:action="@{/users/{email}(email = ${user.getEmail()})}" th:object="${user}">
+<!--    <input type="hidden" name="_method" value="patch">-->
+    <table border="1">
+        <tr>
+            <td><label for="firstName">First name</label></td>
+            <td><input type="text" th:field="*{firstName}" id="firstName"/></td>
+            <td style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</td>
+        </tr>
+        <tr>
+            <td><label for="lastName">Last name</label></td>
+            <td><input type="text" th:field="*{lastName}" id="lastName"/></td>
+            <td style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</td>
+        </tr>
+<!--        <tr>-->
+<!--            <td><label for="email">Email</label></td>-->
+<!--            <td><input type="text" th:field="*{email}" id="email"/></td>-->
+
+<!--        </tr>-->
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><input type="text" th:field="*{password}" id="password"/></td>
+
+        </tr>
+    </table>
+    <input type="submit" value="Edit"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Debit Card</title>
+</head>
+
+<body>
+
+<h1>Card</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Balance</th>
+        <th>Card number</th>
+        <th>CVV</th>
+        <th>Start date</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td><a th:text="${debitCard.getBalance()}">value</a></td>
+        <td><a th:text="${debitCard.getCardNumber()}">value</a></td>
+        <td><a th:text="${debitCard.getCvv()}">value</a></td>
+        <td><a th:text="${debitCard.getExpirationDate()}">value</a></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<br>
+
+<button><a th:href="@{/cards/{cardNumber}/edit(cardNumber=${debitCard.getCardNumber()})}">Edit card</a></button>
+
+<form th:method="DELETE" th:action="@{/cards/{cardNumber}(cardNumber=${debitCard.getCardNumber()})}">
+    <input type="submit" value="Delete">
+</form>
+
+<br>
+<button><a href="/main">Back to main menu</a></button>
+<button><a href="/cards">Back to card list</a></button>
+
+</body>
+</html>

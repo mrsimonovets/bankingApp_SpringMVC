@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Card List</title>
+</head>
+
+<body>
+
+<h1>Table of cards</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Balance</th>
+        <th>Card number</th>
+        <th>CVV</th>
+        <th>Start date</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="card : ${cards}">
+            <td><a th:text="${card.getBalance()}">value</a></td>
+            <td><a th:href="@{/cards/{cardNumber}(cardNumber=${card.getCardNumber()})}" th:text="${card.getCardNumber()}">value</a></td>
+            <td><a th:text="${card.getCvv()}">value</a></td>
+            <td><a th:text="${card.getExpirationDate()}">value</a></td>
+        </tr>
+    </tbody>
+
+</table>
+
+<br>
+
+
+<button><a href="/main">Back to main menu</a></button>
+<button><a href="/new-card">Add new Card</a></button>
+
+</body>
+
+</html>

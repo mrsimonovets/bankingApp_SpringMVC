@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create new Loan</title>
+</head>
+
+<body>
+
+<h1>Creating new Loan</h1>
+
+<form th:method="POST" th:action="@{/loans}" th:object="${loan}">
+
+    <label for="sum">Enter amount</label>
+    <input type="text" th:field="*{sum}" id="sum"/>
+    <div style="color:red" th:if="${#fields.hasErrors('sum')}" th:errors="*{sum}">Error</div>
+
+    <br/>
+
+    <label for="interest">Enter interest</label>
+    <input type="text" th:field="*{interestRate}" id="interest"/>
+    <div style="color:red" th:if="${#fields.hasErrors('interestRate')}" th:errors="*{interestRate}">Error</div>
+
+    <br/>
+
+    <label for="term">Enter term</label>
+    <input type="text" th:field="*{creditTerm}" id="term"/>
+    <div style="color:red" th:if="${#fields.hasErrors('creditTerm')}" th:errors="*{creditTerm}">Error</div>
+
+    <br/>
+
+    <label for="description">Enter description</label>
+    <input type="text" th:field="*{description}" id="description"/>
+    <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Error</div>
+
+    <br/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+</body>
+
+</html>

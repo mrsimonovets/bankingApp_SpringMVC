@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Loan List</title>
+</head>
+
+<body>
+
+<h1>Table of loans</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Registration date</th>
+        <th>Amount</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="loan : ${loans}">
+        <td><a th:text="${loan.getRegistrationDate()}">value</a></td>
+        <td><a th:href="@{/loans/{sum}(sum=${loan.getSum()})}" th:text="${loan.getSum()}">value</a></td>
+        <td><a th:text="${loan.getInterestRate()}">value</a></td>
+        <td><a th:text="${loan.getCreditTerm()}">value</a></td>
+        <td><a th:text="${loan.getMonthlyPayment()}">value</a></td>
+        <td><a th:text="${loan.getDescription()}">value</a></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<br>
+
+<button><a href="/main">Back to main menu</a></button>
+<button><a href="/loans/new">Add new Loan</a></button>
+
+</body>
+
+</html>

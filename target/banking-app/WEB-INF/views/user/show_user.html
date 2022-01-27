@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+
+<body>
+
+<h1>Card</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Registration Date</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+    <tr>
+        <td><a th:text="${user.getFirstName()}">value</a></td>
+        <td><a th:text="${user.getLastName()}">value</a></td>
+        <td><a th:href="@{/users/{email}(email=${user.getEmail()})}" th:text="${user.getEmail()}">value</a></td>
+        <td><a th:text="${user.getPassword()}">value</a></td>
+        <td><a th:text="${user.getRegistrationDate()}">value</a></td>
+    </tr>
+    </tr>
+    </tbody>
+
+</table>
+
+<br>
+
+<button><a th:href="@{/users/{email}/edit(email=${user.getEmail()})}">Edit user</a></button>
+
+<form th:method="DELETE" th:action="@{/users/{email}(email=${user.getEmail()})}">
+    <input type="submit" value="Delete">
+</form>
+
+<br>
+<button><a href="/">Login</a></button>
+<button><a href="/main">Main menu</a></button>
+
+</body>
+</html>
