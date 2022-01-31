@@ -31,7 +31,7 @@ public class MainController {
 
     @GetMapping("/users")
     public String users(Model model){
-        model.addAttribute("users", userDao.showUsers());
+        model.addAttribute("users", userDao.findAll());
         return "user/user_list";
     }
 
@@ -43,8 +43,8 @@ public class MainController {
 
     @PostMapping("/login")
     public String doLogin(@ModelAttribute("user") User user){
-        if (userDao.showOneUser(user.getEmail())!=null){
-            User logUser = userDao.showOneUser(user.getEmail());
+        if (userDao.findByEmail(user.getEmail())!=null){
+            User logUser = userDao.findByEmail(user.getEmail());
             String logPassword = logUser.getPassword();
             if (logPassword.equals(user.getPassword())){
                 return "main";
@@ -73,20 +73,20 @@ public class MainController {
             return "user/registration";
 
         user.setRegistrationDate(genDate());
-        userDao.addUser(user);
+        userDao.save(user);
 
         return "redirect:/";
     }
 
     @GetMapping("/users/{email}")
     public String showOneUser(@PathVariable("email") String email, Model model){
-        model.addAttribute("user", userDao.showOneUser(email));
+        model.addAttribute("user", userDao.findByEmail(email));
         return "user/show_user";
     }
 
     @GetMapping("/users/{email}/edit")
     public String editUser(Model model, @PathVariable("email") String email){
-        model.addAttribute("user", userDao.showOneUser(email));
+        model.addAttribute("user", userDao.findByEmail(email));
         return "user/edit_user";
     }
 
@@ -97,13 +97,13 @@ public class MainController {
         if (bindingResult.hasErrors())
             return "user/edit_user";
 
-        userDao.updateUser(email, user);
+        userDao.update(email);
         return "redirect:/users";
     }
 
     @DeleteMapping("/users/{email}")
     public String deleteUser(@PathVariable("email") String email){
-        userDao.deleteUser(email);
+        userDao.delete(email);
         return"redirect:/users";
     }
 }

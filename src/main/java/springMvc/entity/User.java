@@ -3,25 +3,45 @@ package springMvc.entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.stereotype.Controller;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table (name = "uniqueuser")
 public class User {
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 15, message = "Check your name's size")
+
     private String firstName;
+
 
     @NotEmpty(message = "Last name should not be empty")
     private String lastName;
 
+    @Id
     @NotEmpty(message = "email is empty!")
     @Email(message = "email should be valid")
+
     private String email;
 
+
     private String password;
+
+
     private Date registrationDate;
+
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Loan> loans = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<DebitCard> cards = new ArrayList<>();
 
     public User() {}
 

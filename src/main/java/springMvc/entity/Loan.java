@@ -3,14 +3,18 @@ package springMvc.entity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Loan {
 
 
     private Date registrationDate; //автоматически
 
+    @Id
     @Min(value = 5, message = "Sum should not be empty")
     private double sum; //вводит пользователь
 
@@ -25,6 +29,8 @@ public class Loan {
     @NotEmpty(message = "Description should not be empty")
     private String description; //вводит пользователь
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private User user;
 
     public Loan(){}
 
