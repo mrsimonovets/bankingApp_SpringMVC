@@ -13,6 +13,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>Id</th>
         <th>Balance</th>
         <th>Card number</th>
         <th>CVV</th>
@@ -22,8 +23,9 @@
 
     <tbody>
         <tr th:each="card : ${cards}">
+            <td><a th:href="@{/cards/{cardId}(cardId=${card.getCardId()})}" th:text="${card.getCardId()}">value</a></td>
             <td><a th:text="${card.getBalance()}">value</a></td>
-            <td><a th:href="@{/cards/{cardNumber}(cardNumber=${card.getCardNumber()})}" th:text="${card.getCardNumber()}">value</a></td>
+            <td><a th:text="${card.getCardNumber()}">value</a></td>
             <td><a th:text="${card.getCvv()}">value</a></td>
             <td><a th:text="${card.getExpirationDate()}">value</a></td>
         </tr>

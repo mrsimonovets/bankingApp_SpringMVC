@@ -21,7 +21,7 @@ public class DebitCardController {
 
     @GetMapping("/cards")
     public String cards(Model model){
-        model.addAttribute("cards", debitCardDao.showCards());
+        model.addAttribute("cards", debitCardDao.showCards(MainController.staticUser.getEmail()));
         return "card/card_list";
     }
 
@@ -39,6 +39,8 @@ public class DebitCardController {
 
         debitCard.setCvv(genCvv());
         debitCard.setCardNumber(genCardNumber());
+
+        debitCard.setUser(MainController.staticUser);
         debitCardDao.addCard(debitCard);
 
         return "redirect:/cards";
@@ -57,27 +59,27 @@ public class DebitCardController {
         return cardNumberStr;
     }
 
-    @GetMapping("/cards/{cardNumber}")
-    public String showOneCard(@PathVariable("cardNumber") String cardNumber, Model model){
-        model.addAttribute("debitCard", debitCardDao.showOneCard(cardNumber));
+    @GetMapping("/cards/{cardId}")
+    public String showOneCard(@PathVariable("cardId") Long cardId, Model model){
+        model.addAttribute("debitCard", debitCardDao.showOneCard(cardId));
         return "card/show_card";
     }
 
-    @GetMapping("/cards/{cardNumber}/edit")
-    public String editCard(Model model, @PathVariable("cardNumber") String cardNumber){
-        model.addAttribute("debitCard", debitCardDao.showOneCard(cardNumber));
+    @GetMapping("/cards/{cardId}/edit")
+    public String editCard(Model model, @PathVariable("cardId") Long cardId){
+        model.addAttribute("debitCard", debitCardDao.showOneCard(cardId));
         return "card/edit_card";
     }
 
-    @PatchMapping("/cards/{cardNumber}")
-    public String updateCard(@ModelAttribute("debitCard") DebitCard debitCard, @PathVariable("cardNumber") String cardNumber){
-        debitCardDao.updateCard(cardNumber, debitCard);
+    @PatchMapping("/cards/{cardId}")
+    public String updateCard(@ModelAttribute("debitCard") DebitCard debitCard){
+        debitCardDao.updateCard(debitCard);
         return "redirect:/cards";
     }
 
-    @DeleteMapping("/cards/{cardNumber}")
-    public String deleteCard(@PathVariable("cardNumber") String cardNumber){
-        debitCardDao.deleteCard(cardNumber);
+    @DeleteMapping("/cards/{cardId}")
+    public String deleteCard(@PathVariable("cardId") Long cardId){
+        debitCardDao.deleteCard(cardId);
         return "redirect:/cards";
     }
 

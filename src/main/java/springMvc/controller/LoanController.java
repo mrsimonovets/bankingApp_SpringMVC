@@ -1,11 +1,13 @@
 package springMvc.controller;
 
 import jakarta.validation.Valid;
+import org.jboss.jandex.Main;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import springMvc.dao.LoanDao;
+import springMvc.dao.UserDao;
 import springMvc.entity.Loan;
 
 import java.util.Date;
@@ -22,7 +24,7 @@ public class LoanController {
     //Loan
     @GetMapping("/loans")
     public String loans(Model model){
-        model.addAttribute("loans", loanDao.showLoans());
+        model.addAttribute("loans", loanDao.showLoansByEmail(MainController.staticUser.getEmail()));
         return "loan/loan_list";
     }
 
@@ -40,12 +42,15 @@ public class LoanController {
 
         loan.setMonthlyPayment(genMonthlyPayment(loan.getSum(), loan.getInterestRate(), loan.getCreditTerm()));
         loan.setRegistrationDate(genDate());
+
+        loan.setUser(MainController.staticUser);
         loanDao.addLoan(loan);
+
         return "redirect:/loans";
     }
 
     public static double genMonthlyPayment(double sum, double interest, int credit){
-        double total = sum * (1 + interest);
+        double total = sum * (1 + interest/100);
         double monthlyPayment = total / credit;
         return monthlyPayment;
     }
@@ -55,32 +60,31 @@ public class LoanController {
         return registrationDate;
     }
 
-    @GetMapping("/loans/{sum}")
-    public String showOneLoan(@PathVariable("sum") Double sum, Model model){
-        model.addAttribute("loan", loanDao.showOneLoan(sum));
+    @GetMapping("/loans/{loanId}")
+    public String showOneLoan(@PathVariable("loanId") Long id, Model model){
+        model.addAttribute("loan", loanDao.showOneLoan(id));
         return "loan/show_loan";
     }
 
-    @GetMapping("/loans/{sum}/edit")
-    public String editLoan(Model model, @PathVariable("sum") Double sum){
-        model.addAttribute("user", loanDao.showOneLoan(sum));
+    @GetMapping("/loans/{loanId}/edit")
+    public String editLoan(Model model, @PathVariable("loanId") Long loanId){
+        model.addAttribute("loan", loanDao.showOneLoan(loanId));
         return "loan/edit_loan";
     }
 
-    @PatchMapping("/loans/{sum}")
+    @PatchMapping("/loans/{loanId}")
     public String updateLoan(@ModelAttribute("loan") @Valid Loan loan,
-                             BindingResult bindingResult,
-                             @PathVariable("sum") Double sum){
+                             BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return "loan/edit_loan";
 
-        loanDao.updateLoan(sum, loan);
+        loanDao.updateLoan(loan);
         return "redirect:/loans";
     }
 
-    @DeleteMapping("/loans/{sum}")
-    public String deleteLoan(@PathVariable("sum") Double sum){
-        loanDao.deleteLoan(sum);
+    @DeleteMapping("/loans/{loanId}")
+    public String deleteLoan(@PathVariable("loanId") Long id){
+        loanDao.deleteLoan(id);
         return"redirect:/loans";
     }
 }

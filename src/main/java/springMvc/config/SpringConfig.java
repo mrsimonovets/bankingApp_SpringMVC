@@ -16,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import springMvc.entity.User;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -74,8 +73,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan("springMvc.entity");
-        sessionFactory.setAnnotatedClasses(User.class);
+        sessionFactory.setPackagesToScan("springMvc.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

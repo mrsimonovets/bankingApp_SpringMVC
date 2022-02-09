@@ -13,6 +13,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>Id</th>
         <th>Balance</th>
         <th>Card number</th>
         <th>CVV</th>
@@ -22,6 +23,7 @@
 
     <tbody>
     <tr>
+        <td><a th:text="${debitCard.getCardId()}">value</a></td>
         <td><a th:text="${debitCard.getBalance()}">value</a></td>
         <td><a th:text="${debitCard.getCardNumber()}">value</a></td>
         <td><a th:text="${debitCard.getCvv()}">value</a></td>
@@ -33,9 +35,9 @@
 
 <br>
 
-<button><a th:href="@{/cards/{cardNumber}/edit(cardNumber=${debitCard.getCardNumber()})}">Edit card</a></button>
+<button><a th:href="@{/cards/{cardId}/edit(cardId=${debitCard.getCardId()})}">Edit card</a></button>
 
-<form th:method="DELETE" th:action="@{/cards/{cardNumber}(cardNumber=${debitCard.getCardNumber()})}">
+<form th:method="DELETE" th:action="@{/cards/{cardId}(cardId=${debitCard.cardId})}">
     <input type="submit" value="Delete">
 </form>
 

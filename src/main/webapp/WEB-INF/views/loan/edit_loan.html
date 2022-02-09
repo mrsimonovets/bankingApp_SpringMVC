@@ -2,43 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Card</title>
+    <title>Edit loan</title>
 </head>
 <body>
 
-<h1>Editing Card</h1>
+<h1>Editing loan</h1>
 
-<form th:method="POST" th:action="@{/loans/{sum}(sum = ${loan.getSum()})}" th:object="${loan}">
+<form th:method="PATCH" th:action="@{/loans/{loanId}(loanId = ${loan.getLoanId()})}" th:object="${loan}">
 
-    <label for="sum">Enter amount</label>
-    <input type="text" th:field="*{sum}" id="sum"/>
-    <div style="color:red" th:if="${#fields.hasErrors('sum')}" th:errors="*{sum}">Error</div>
-
-    <br/>
-
-    <label for="interest">Enter interest</label>
-    <input type="text" th:field="*{interestRate}" id="interest"/>
-    <div style="color:red" th:if="${#fields.hasErrors('interestRate')}" th:errors="*{interestRate}">Error</div>
-
-    <br/>
-
-    <label for="term">Enter term</label>
-    <input type="text" th:field="*{creditTerm}" id="term"/>
-    <div style="color:red" th:if="${#fields.hasErrors('creditTerm')}" th:errors="*{creditTerm}">Error</div>
-
-    <br/>
-
-    <label for="description">Enter description</label>
-    <input type="text" th:field="*{description}" id="description"/>
-    <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Error</div>
-
-    <br/>
+    <table border="1">
+        <tr>
+            <td><label for="sum">Enter amount</label></td>
+            <td><input type="text" th:field="*{sum}" id="sum"/></td>
+            <div style="color:red" th:if="${#fields.hasErrors('sum')}" th:errors="*{sum}">Error</div>
+        </tr>
+        <tr>
+            <td><label for="interest">Enter interest</label></td>
+            <td><input type="text" th:field="*{interestRate}" id="interest"/></td>
+            <div style="color:red" th:if="${#fields.hasErrors('interestRate')}" th:errors="*{interestRate}">Error</div>
+        </tr>
+        <tr>
+            <td><label for="term">Enter term</label></td>
+            <td><input type="text" th:field="*{creditTerm}" id="term"/></td>
+            <div style="color:red" th:if="${#fields.hasErrors('creditTerm')}" th:errors="*{creditTerm}">Error</div>
+        </tr>
+        <tr>
+            <td><label for="description">Enter description</label></td>
+            <td><input type="text" th:field="*{description}" id="description"/></td>
+            <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Error</div>
+        </tr>
+    </table>
 
     <input type="submit" value="Submit"/>
 
 </form>
 
-<button><a th:href="@{/loans/{sum}(sum=${loan.getSum()})}">Back to loan</a></button>
+<button><a th:href="@{/loans/{loanId}(loanId=${loan.getLoanId()})}">Back to loan</a></button>
 <button><a href="/loans">Back to loan list</a></button>
 
 </body>

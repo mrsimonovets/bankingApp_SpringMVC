@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import springMvc.entity.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -18,6 +19,8 @@ import java.util.Date;
 public class MainController {
 
     private UserDao userDao;
+
+    public static User staticUser;
 
     @Autowired
     public MainController(UserDao userDao) {
@@ -43,16 +46,17 @@ public class MainController {
 
     @PostMapping("/login")
     public String doLogin(@ModelAttribute("user") User user){
-        if (userDao.findByEmail(user.getEmail())!=null){
-            User logUser = userDao.findByEmail(user.getEmail());
+        User logUser = userDao.findByEmail(user.getEmail());
+        if (logUser!=null){
             String logPassword = logUser.getPassword();
             if (logPassword.equals(user.getPassword())){
+                staticUser = logUser;
                 return "main";
             } else{
                 return "user/login";
             }
         }
-        return "redirect:/register";
+        return "user/registration";
     }
 
     public static Date genDate(){
@@ -73,6 +77,8 @@ public class MainController {
             return "user/registration";
 
         user.setRegistrationDate(genDate());
+        user.setUserCards(new ArrayList<>());
+        user.setUserLoans(new ArrayList<>());
         userDao.save(user);
 
         return "redirect:/";
@@ -91,19 +97,19 @@ public class MainController {
     }
 
     @PatchMapping("/users/{email}")
-    public String updateUser(@ModelAttribute("user") @Valid User user,
+    public String editUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult,
                              @PathVariable("email") String email){
         if (bindingResult.hasErrors())
             return "user/edit_user";
 
-        userDao.update(email);
+        userDao.edit(user);
         return "redirect:/users";
     }
 
     @DeleteMapping("/users/{email}")
     public String deleteUser(@PathVariable("email") String email){
         userDao.delete(email);
-        return"redirect:/users";
+        return "redirect:/users";
     }
 }

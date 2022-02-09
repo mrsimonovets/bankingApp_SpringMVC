@@ -12,36 +12,30 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table (name = "uniqueuser")
+@Table (name = "users")
 public class User {
 
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 15, message = "Check your name's size")
-
+//    @NotEmpty(message = "Name should not be empty")
+//    @Size(min = 2, max = 15, message = "Check your name's size")
     private String firstName;
 
-
-    @NotEmpty(message = "Last name should not be empty")
+//    @NotEmpty(message = "Last name should not be empty")
     private String lastName;
 
     @Id
-    @NotEmpty(message = "email is empty!")
-    @Email(message = "email should be valid")
-
+//    @NotEmpty(message = "email is empty!")
+//    @Email(message = "email should be valid")
     private String email;
-
 
     private String password;
 
-
     private Date registrationDate;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Loan> userLoans;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Loan> loans = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<DebitCard> cards = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DebitCard> userCards;
 
     public User() {}
 
@@ -51,6 +45,22 @@ public class User {
         this.email = email;
         this.password = password;
         this.registrationDate = registrationDate;
+    }
+
+    public List<Loan> getUserLoans() {
+        return userLoans;
+    }
+
+    public void setUserLoans(List<Loan> userLoans) {
+        this.userLoans = userLoans;
+    }
+
+    public List<DebitCard> getUserCards() {
+        return userCards;
+    }
+
+    public void setUserCards(List<DebitCard> userCards) {
+        this.userCards = userCards;
     }
 
     public String getFirstName() {

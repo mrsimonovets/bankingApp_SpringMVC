@@ -8,13 +8,16 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "loans")
 public class Loan {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "loan_id")
+    private Long loanId; //автоматически
 
     private Date registrationDate; //автоматически
 
-    @Id
     @Min(value = 5, message = "Sum should not be empty")
     private double sum; //вводит пользователь
 
@@ -29,8 +32,9 @@ public class Loan {
     @NotEmpty(message = "Description should not be empty")
     private String description; //вводит пользователь
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_email", nullable = false)
+    private User user;
 
     public Loan(){}
 
@@ -41,6 +45,22 @@ public class Loan {
         this.creditTerm = creditTerm;
         this.monthlyPayment = monthlyPayment;
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getLoanId() {
+        return loanId;
+    }
+
+    public void setLoanId(Long loanId) {
+        this.loanId = loanId;
     }
 
     public Date getRegistrationDate() {
@@ -96,11 +116,11 @@ public class Loan {
         if (this == o) return true;
         if (!(o instanceof Loan)) return false;
         Loan loan = (Loan) o;
-        return Double.compare(loan.getSum(), getSum()) == 0 && Double.compare(loan.getInterestRate(), getInterestRate()) == 0 && getCreditTerm() == loan.getCreditTerm() && Double.compare(loan.getMonthlyPayment(), getMonthlyPayment()) == 0 && getRegistrationDate().equals(loan.getRegistrationDate()) && Objects.equals(getDescription(), loan.getDescription());
+        return Double.compare(loan.getSum(), getSum()) == 0 && Double.compare(loan.getInterestRate(), getInterestRate()) == 0 && getCreditTerm() == loan.getCreditTerm() && Double.compare(loan.getMonthlyPayment(), getMonthlyPayment()) == 0 && Objects.equals(getLoanId(), loan.getLoanId()) && Objects.equals(getRegistrationDate(), loan.getRegistrationDate()) && Objects.equals(getDescription(), loan.getDescription()) && Objects.equals(getUser(), loan.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRegistrationDate(), getSum(), getInterestRate(), getCreditTerm(), getMonthlyPayment(), getDescription());
+        return Objects.hash(getLoanId(), getRegistrationDate(), getSum(), getInterestRate(), getCreditTerm(), getMonthlyPayment(), getDescription(), getUser());
     }
 }

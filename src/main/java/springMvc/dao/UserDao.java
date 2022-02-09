@@ -3,6 +3,7 @@ package springMvc.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import javax.persistence.Query;
 import org.springframework.stereotype.Component;
 import springMvc.entity.User;
 
@@ -48,7 +49,7 @@ public class UserDao {
     }
 
     public void save(User user) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(user);
         tx1.commit();
@@ -56,27 +57,41 @@ public class UserDao {
     }
 
     public User findByEmail(String email) {
-        return sessionFactory.getCurrentSession().get(User.class, email);
+        return sessionFactory.openSession().get(User.class, email);
     }
 
     public List<User> findAll() {
-        List<User> users = (List<User>) sessionFactory.getCurrentSession().createQuery("From User").list();
+        List<User> users = (List<User>) sessionFactory.openSession().createQuery("From User").list();
         return users;
     }
 
-    public void update(String email) {
-        Session session = sessionFactory.getCurrentSession();
+    public void edit(User updatedUser) {
+        Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
-        User user = sessionFactory.openSession().get(User.class, email);
-        session.update(user);
+
+        Query query = session.createQuery("UPDATE User SET firstName =:firstNameParam, lastName =:lastNameParam, password =:passwordParam WHERE email =:emailParam");
+        query.setParameter("emailParam", updatedUser.getEmail());
+        query.setParameter("firstNameParam", updatedUser.getFirstName());
+        query.setParameter("lastNameParam", updatedUser.getLastName());
+        query.setParameter("passwordParam", updatedUser.getPassword());
+        query.executeUpdate();
+
         tx1.commit();
         session.close();
     }
 
+//    public void update(User user) {
+//        Session session = sessionFactory.openSession();
+//        Transaction tx1 = session.beginTransaction();
+//        session.update(user);//
+//        tx1.commit();
+//        session.close();
+//    }
+
     public void delete(String email) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
-        User user = sessionFactory.openSession().get(User.class, email);
+        User user = session.get(User.class, email);
         session.delete(user);
         tx1.commit();
         session.close();

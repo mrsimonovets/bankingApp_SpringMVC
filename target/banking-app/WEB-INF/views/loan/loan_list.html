@@ -13,6 +13,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>Id</th>
         <th>Registration date</th>
         <th>Amount</th>
         <th>Description</th>
@@ -21,11 +22,12 @@
 
     <tbody>
     <tr th:each="loan : ${loans}">
+        <td><a th:href="@{/loans/{id}(id=${loan.loanId})}" th:text="${loan.loanId}">value</a></td>
         <td><a th:text="${loan.getRegistrationDate()}">value</a></td>
-        <td><a th:href="@{/loans/{sum}(sum=${loan.getSum()})}" th:text="${loan.getSum()}">value</a></td>
-        <td><a th:text="${loan.getInterestRate()}">value</a></td>
-        <td><a th:text="${loan.getCreditTerm()}">value</a></td>
-        <td><a th:text="${loan.getMonthlyPayment()}">value</a></td>
+        <td><a th:text="${loan.getSum()}">value</a></td>
+<!--        <td><a th:text="${loan.getInterestRate()}">value</a></td>-->
+<!--        <td><a th:text="${loan.getCreditTerm()}">value</a></td>-->
+<!--        <td><a th:text="${loan.getMonthlyPayment()}">value</a></td>-->
         <td><a th:text="${loan.getDescription()}">value</a></td>
     </tr>
     </tbody>

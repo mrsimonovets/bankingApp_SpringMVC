@@ -8,11 +8,13 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name ="debitcards")
 public class DebitCard {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "card_id")
+    private Long cardId;
 
     @NotEmpty(message = "Balance should not be empty")
     private double balance; // вводит пользователь
@@ -25,6 +27,9 @@ public class DebitCard {
 
     private int cvv; // генерировать
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_email", nullable = false)
+    private User user;
 
     public DebitCard(){}
 
@@ -35,12 +40,21 @@ public class DebitCard {
         this.cvv = cvv;
     }
 
-    public long getId() {
-        return id;
+
+    public Long getCardId() {
+        return cardId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCardId(Long cardId) {
+        this.cardId = cardId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getBalance() {

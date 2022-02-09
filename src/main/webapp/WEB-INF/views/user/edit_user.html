@@ -21,11 +21,6 @@
             <td><input type="text" th:field="*{lastName}" id="lastName"/></td>
             <td style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</td>
         </tr>
-<!--        <tr>-->
-<!--            <td><label for="email">Email</label></td>-->
-<!--            <td><input type="text" th:field="*{email}" id="email"/></td>-->
-
-<!--        </tr>-->
         <tr>
             <td><label for="password">Password</label></td>
             <td><input type="text" th:field="*{password}" id="password"/></td>
